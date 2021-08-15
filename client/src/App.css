@@ -1,0 +1,63 @@
+.App {
+  text-align: center;
+}
+
+.FlexContainer {
+  display:flex;
+  flex-wrap: wrap;
+  text-align: center;
+  margin: auto;
+}
+
+.ProductCard {
+  width: 200px;
+  background-color: green;
+  padding: 15px;
+}
+
+h4 {
+  margin: auto;
+}
+
+.Card {
+  margin: auto;
+  padding: 10px;
+}
+
+.modal {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 10vh;
+  /* margin-top: 10vh; */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.productForm {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  border: none;
+  background-color: white;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  cursor: pointer;
+}
