@@ -2,46 +2,44 @@ import React, { useState, useEffect, useContext } from 'react';
 import ProductCard from './ProductCard';
 import { ContentContext } from '../context/ContentProvider';
 import AddProduct from './AddProduct';
-import EditProduct from './EditProduct'
 
 export default function ProductList() {
-    const { getProducts, productState, handleDelete } =
+    const { getProducts, productState, setInputs, initInputs } =
         useContext(ContentContext);
 
-    const [state, setState] = useState({show: true});
+    const [show, setShow] = useState(false);
 
-    // console.log('productState',productState);
-
-    let list = productState.products;
+    console.log('productState', productState);
 
     useEffect(() => {
         getProducts();
     }, []);
 
-    const showModal = () => {
-        setState((prevInputs) => {
-            return { ...prevInputs, show: !prevInputs.show };
-        });
-    };
+    useEffect(() => {
+        if (!show) setInputs(initInputs);
+    }, [show]);
 
     return (
         <>
             <button
                 onClick={() => {
-                    showModal();
+                    setShow(true);
                 }}
             >
                 Add Product
             </button>
-            {state.show ? null : <AddProduct showModal={showModal} product={list}></AddProduct>}
+            {show ? (
+                <AddProduct
+                    setShow={setShow}
+                    product={productState.products}
+                ></AddProduct>
+            ) : null}
             <div className="FlexContainer">
                 {productState.products
                     ? productState.products.map((product) => {
                           return (
                               <div className="Card" key={`${product._id}`}>
-                                  <ProductCard product={product}>
-                                      {/* <EditProduct></EditProduct> */}
-                                    </ProductCard>
+                                  <ProductCard product={product}></ProductCard>
                               </div>
                           );
                       })

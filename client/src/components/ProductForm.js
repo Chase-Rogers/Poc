@@ -1,11 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ContentContext } from '../context/ContentProvider';
 
 export default function ProductForm(props) {
-    const { addProduct, showModal} = props;
+    const { addProduct, setShow, product, editProduct} = props;
+    console.log(editProduct)
+    console.log(product)
 
-    const { inputs, setInputs, initInputs, getProducts } = useContext(ContentContext);
-    // console.log(inputs)
+    const { inputs, setInputs, initInputs } = useContext(ContentContext);
+
+    const handleClose = () => {
+        setShow(false);
+    }
+
+    useEffect (() => {
+        setInputs((prevInputs) => ({
+            ...prevInputs,
+            ...product
+        }));
+    }, [])
 
     const handleChange1 = (e) => {
         const { name, value } = e.target;
@@ -16,19 +28,18 @@ export default function ProductForm(props) {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        addProduct(inputs);
-        // getProducts();
-        showModal();
+        e.preventDefault();  
+        inputs._id ? editProduct(inputs, inputs._id) : addProduct(inputs);
+        // TODO: Only close on success.
+        handleClose();
         setInputs(initInputs);
     };
 
     return (
         <div className="productForm">
             <button onClick={() => {
-                    showModal();
+                    handleClose();
                 }}className="close">X</button>
-            {/* <h1>Add Product</h1> */}
             <form className="form" onSubmit={handleSubmit}>
                 <input
                     type="text"

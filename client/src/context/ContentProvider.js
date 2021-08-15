@@ -22,12 +22,9 @@ export default function ContentProvider(props) {
     const [productState, setProductState] = useState(initState);
 
     function getProducts(productParam) {
-        // console.log('Param', productParam);
         productAxios
             .get(`/api`)
             .then((res) => {
-                // console.log('res', res);
-
                 setProductState((prevState) => ({
                     ...prevState,
                     products: res.data,
@@ -40,9 +37,10 @@ export default function ContentProvider(props) {
         productAxios
             .post('/api', newProduct)
             .then((res) => {
-                console.log('productState.products', productState.products)
-                console.log('res',res)
-                setProductState((prevState) => ({...prevState, products:[...prevState.products, res.data]}));
+                setProductState((prevState) => ({
+                    ...prevState,
+                    products: [...prevState.products, res.data],
+                }));
             })
             .catch((err) => console.log(err.response.data.errMsg));
     }
@@ -62,11 +60,14 @@ export default function ContentProvider(props) {
         productAxios
             .put(`/api/${productId}`, updates)
             .then((res) => {
-                return setProductState((prevProducts) =>
-                    prevProducts.map((product) =>
-                        product._id !== productId ? product : res.data
-                    )
-                );
+                return setProductState((prevProductState) =>{
+                    const products = prevProductState.products.map((product) =>
+                    product._id !== productId ? product : res.data)
+                    return {
+                        ...prevProductState,
+                        products 
+                    }
+                });
             })
             .catch((err) => console.log(err));
     };
@@ -84,7 +85,7 @@ export default function ContentProvider(props) {
                 addProduct,
                 getProducts,
                 handleDelete,
-                handleEdit
+                handleEdit,
             }}
         >
             {props.children}

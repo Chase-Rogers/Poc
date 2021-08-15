@@ -1,24 +1,24 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { ContentContext } from '../context/ContentProvider';
 import EditProduct from './EditProduct';
 
 export default function ProductCard(props) {
-    // const initState = {
-    //     show: true,
-    // };
+    const [show, setShow] = useState(false);
+    const {initInputs, setInputs} = useContext(ContentContext)
 
-    const [state, setState] = useState({show: true, edit: false});
 
-    const showModal = () => {
-        setState((prevInputs) => {
-            return { ...prevInputs, show: !prevInputs.show };
-        });
-    };
+    useEffect(() => {
+        if (!show) setInputs(initInputs);
+    },[show])
 
     return (
         <div className="ProductCard">
-            {state.show ? null : (
-                <EditProduct product={props.product} showModal={showModal}></EditProduct>
-            )}
+            {show ? (
+                <EditProduct
+                    product={props.product}
+                    setShow={setShow}
+                ></EditProduct>
+            ) : null}
             <img src="https://via.placeholder.com/150"></img>
             <h3>{props.product.title}</h3>
             <h4>{props.product.description}</h4>
@@ -28,9 +28,11 @@ export default function ProductCard(props) {
             </div>
             <button
                 onClick={() => {
-                    showModal();
+                    setShow(true);
                 }}
-            >Edit</button>
+            >
+                Edit
+            </button>
         </div>
     );
 }
