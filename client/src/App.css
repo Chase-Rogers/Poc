@@ -27,7 +27,7 @@ h4 {
 .modal {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  padding-top: 10vh;
+  /* padding-top: 25vh; */
   /* margin-top: 10vh; */
   left: 0;
   top: 0;
@@ -38,13 +38,30 @@ h4 {
 }
 
 /* Modal Content */
+
+.modal-content {
+  width: 70vw;
+  height: 70vh;
+  background: white;
+  margin: 0 auto;
+}
+
 .productForm {
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+  /* border: 1px solid #888; */
+  /* width: 80%; */
+  height: 100%;
+  overflow-y: auto;
+
 }
+
+button {
+  width: 10vw;
+  margin: auto;
+}
+
 
 /* The Close Button */
 .close {
@@ -53,11 +70,16 @@ h4 {
   font-size: 28px;
   font-weight: bold;
   border: none;
-  background-color: white;
+  background-color: rgba(0,0,0,0); /* Black w/ opacity */
 }
 
 .close:hover,
 .close:focus {
   color: #000;
   cursor: pointer;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
 }

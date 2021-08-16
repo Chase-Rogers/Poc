@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const ContentContext = React.createContext();
 
@@ -9,17 +10,25 @@ export default function ContentProvider(props) {
     const initInputs = {
         title: '',
         description: '',
-        price: 0,
-        quantity: 0,
+        price: '',
+        quantity: '',
+        image: '',
     };
 
     const [inputs, setInputs] = useState(initInputs);
 
+    const [show, setShow] = useState(false);
+
+    const [isSuccessful, setIsSuccessful] = useState(false);
     const initState = {
-        products: [''],
+        products: null,
     };
 
     const [productState, setProductState] = useState(initState);
+
+    const handleClose = (e) => {
+        setShow(false);
+    };
 
     function getProducts(productParam) {
         productAxios
@@ -30,46 +39,61 @@ export default function ContentProvider(props) {
                     products: res.data,
                 }));
             })
-            .catch((err) => console.log('error', err.response.data.errMsg));
+            .catch((err) => {
+                toast.error(
+                    `Error: ${err.response.status} - ${err.response.statusText}`
+                );
+                console.log('Error:', err);
+            });
     }
 
     function addProduct(newProduct) {
         productAxios
             .post('/api', newProduct)
             .then((res) => {
+                toast.success(
+                    `Product ${res.data._id} has been successfully added.`
+                );
+                setIsSuccessful(true);
                 setProductState((prevState) => ({
                     ...prevState,
                     products: [...prevState.products, res.data],
                 }));
             })
-            .catch((err) => console.log(err.response.data.errMsg));
+            .catch((err) => {
+                toast.error(
+                    `Error: ${err.response.status} - ${err.response.statusText}`
+                );
+                setIsSuccessful(false);
+                console.log('Error:', err);
+            });
     }
 
-    const handleDelete = (productId) => {
-        return setProductState((prevInputs) => ({
-            ...prevInputs,
-            products: [
-                ...prevInputs.products.filter(
-                    (product) => product._id !== productId
-                ),
-            ],
-        }));
-    };
-
-    const handleEdit = (updates, productId) => {
+    const editProduct = (updates, productId) => {
         productAxios
             .put(`/api/${productId}`, updates)
             .then((res) => {
-                return setProductState((prevProductState) =>{
+                toast.success(
+                    `Product ${productId} has been successfully updated.`
+                );
+                setIsSuccessful(true);
+                return setProductState((prevProductState) => {
                     const products = prevProductState.products.map((product) =>
-                    product._id !== productId ? product : res.data)
+                        product._id !== productId ? product : res.data
+                    );
                     return {
                         ...prevProductState,
-                        products 
-                    }
+                        products,
+                    };
                 });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                toast.error(
+                    `Error: ${err.response.status} - ${err.response.statusText}`
+                );
+                setIsSuccessful(false);
+                console.log('Error:', err);
+            });
     };
 
     return (
@@ -79,13 +103,17 @@ export default function ContentProvider(props) {
                 initState,
                 initInputs,
                 inputs,
-                productState,
                 setInputs,
+                productState,
                 setProductState,
                 addProduct,
+                editProduct,
                 getProducts,
-                handleDelete,
-                handleEdit,
+                isSuccessful,
+                setIsSuccessful,
+                handleClose,
+                show,
+                setShow
             }}
         >
             {props.children}

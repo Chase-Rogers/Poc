@@ -9,7 +9,6 @@ productRouter.get('/', (req, res, next) => {
             res.status(500);
             return next(err);
         }
-        console.log('hit')
         return res.status(200).send(product);
     });
 });
@@ -18,8 +17,11 @@ productRouter.get('/', (req, res, next) => {
 productRouter.get('/:productId', (req, res, next) => {
     Product.findById(req.params.productId, (err, product) => {
         if (err) {
-            res.status(500);
-            return next(err);
+            if (err.name === 'CastError' || err.name === 'ValidationError') {
+                return res.status(400).send(err);
+            } else {
+                return res.status(500).send(err);
+            }
         }
         return res.status(200).send(product);
     });
@@ -30,8 +32,11 @@ productRouter.post('/', (req, res, next) => {
     const newProduct = new Product(req.body);
     newProduct.save((err, savedProduct) => {
         if (err) {
-            res.status(500);
-            return next(err);
+            if (err.name === 'CastError' || err.name === 'ValidationError') {
+                return res.status(400).send(err);
+            } else {
+                return res.status(500).send(err);
+            }
         }
         return res.status(201).send(savedProduct);
     });
@@ -43,8 +48,11 @@ productRouter.delete('/:productId', (req, res, next) => {
         { _id: req.params.productId },
         (err, deletedProduct) => {
             if (err) {
-                res.status(500);
-                return next(err);
+                if (err.name === 'CastError' || err.name === 'ValidationError') {
+                    return res.status(400).send(err);
+                } else {
+                    return res.status(500).send(err);
+                }
             }
             return res.status(200).send(deletedProduct);
         }
@@ -56,11 +64,14 @@ productRouter.put('/:productId', async (req, res, next) => {
     Product.findOneAndUpdate(
         { _id: req.params.productId },
         req.body,
-        { new: true, upsert: true },
+        { new: true, upsert: true, runValidators: true },
         (err, updatedProduct) => {
             if (err) {
-                res.status(500);
-                return next(err);
+                if (err.name === 'CastError' || err.name === 'ValidationError') {
+                    return res.status(400).send(err);
+                } else {
+                    return res.status(500).send(err);
+                }
             }
             return res.status(200).send(updatedProduct);
         }
