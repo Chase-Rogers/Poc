@@ -3,7 +3,7 @@ import EditProduct from '../EditProductModal/EditProductModal';
 
 export default function ProductCard({ product }) {
     const { image, title, description, price, quantity } = product;
-    let noDescText = '**No description provided**';
+    let noDescText = '*No description*';
 
     return (
         <div className="ProductCard">
@@ -20,13 +20,11 @@ export default function ProductCard({ product }) {
                     </span>
                 )}
             </p>
-            <div className="FlexContainer">
-                <p>
-                    Price: ${price}
-                    {!(price % 1) ? '.00' : ''}
-                </p>
-                <p>Quantity: {quantity}</p>
-            </div>
+            <p>
+                Price: ${price}
+                {!(price % 1) ? '.00' : ''}
+            </p>
+            <p>Quantity: {quantity}</p>
             <EditProduct product={product} />
         </div>
     );

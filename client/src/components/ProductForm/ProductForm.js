@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ContentContext } from '../../context/ContentProvider';
-// import CurrencyInput from 'react-currency-input-field';
 import styled from 'styled-components';
 
 const StyledButton = styled.button`
     margin: 10px;
-    min-width: 200px;
-    border: none;
+    min-width: 180px;
+    border: ${(props) => (props.type === 'reset' ? 'white' : 'black')} solid 1px;
     font-size: 18px;
     padding: 7px 10px;
     background-color: ${(props) =>
         props.type === 'reset' ? 'white' : 'black'};
     color: ${(props) => (props.type === 'reset' ? 'black' : 'white')};
     &:hover {
-        border: ${(props) => (props.type === 'reset' ? 'black' : 'white')} solid 1px;
+        border: ${(props) => (props.type === 'reset' ? 'black' : 'white')} solid
+            1px;
     }
 `;
 
@@ -37,7 +37,10 @@ const StyledInputDiv = styled.div`
     text-align: left;
     margin: auto auto;
     display: grid;
+`;
 
+const StyledDiv = styled.div`
+    text-align: center;
 `;
 
 export default function ProductForm({
@@ -61,7 +64,7 @@ export default function ProductForm({
 
     const handlePriceBlur = (e) => {
         let { value } = e.target;
-        if (!value.includes('.')) value += '.00'
+        if (!value.includes('.')) value += '.00';
         else if (value.includes('.')) value = parseFloat(value).toFixed(2);
         setInputs((prevInputs) => ({
             ...prevInputs,
@@ -70,18 +73,13 @@ export default function ProductForm({
     };
 
     const handleKeyPress = (e) => {
-        if (e.key === 'e' || e.key === '-' || e.key === '+') e.preventDefault()
-    }
+        if (e.key === 'e' || e.key === '-' || e.key === '+') e.preventDefault();
+    };
 
     const handleChange1 = (e) => {
         let { name, value } = e.target;
-        console.log(e)
         if (name === 'price') {
-            
-            if (
-                value.includes('.') &&
-                value.split('.')[1].length >= 2
-            ) {
+            if (value.includes('.') && value.split('.')[1].length >= 2) {
                 value = Number(value).toFixed(2);
             }
         }
@@ -151,24 +149,15 @@ export default function ProductForm({
                     <StyledInput
                         type="number"
                         name="price"
+                        id="price"
                         min="0.00"
+                        step=".01"
                         value={inputs.price}
                         onChange={handleChange1}
                         placeholder="Price"
                         onBlur={handlePriceBlur}
                         onKeyPress={handleKeyPress}
                     ></StyledInput>
-                    {/* <CurrencyInput
-                        intlConfig={{ locale: 'en-US', currency: 'USD' }}
-                        id="price"
-                        name="price"
-                        placeholder="Price"
-                        decimalScale={2}
-                        onValueChange={(value, name) => {
-                            handleChange1({ target: { value, name } });
-                        }}
-                        value={inputs.price}
-                    /> */}
                 </StyledInputDiv>
                 <StyledInputDiv>
                     <StyledLabel htmlFor="quantity">Quantity: </StyledLabel>
@@ -199,13 +188,12 @@ export default function ProductForm({
                         ></img>
                     )}
                 </StyledInputDiv>
-                <div>
-                <StyledButton type="reset" onClick={handleClose}>
-                    Cancel
-                </StyledButton>
-                <StyledButton type="submit">Submit</StyledButton>
-                </div>
-                
+                <StyledDiv>
+                    <StyledButton type="reset" onClick={handleClose}>
+                        Cancel
+                    </StyledButton>
+                    <StyledButton type="submit">Submit</StyledButton>
+                </StyledDiv>
             </form>
         </div>
     );

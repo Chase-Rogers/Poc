@@ -6,7 +6,6 @@ const StyledDiv = styled.div`
     text-align: right;
 `;
 
-
 const StyledSelect = styled.select`
     padding: 0.5em;
     margin: 0.5em;
@@ -50,7 +49,9 @@ export default function SortDropdown(props) {
     };
     return (
         <StyledDiv>
-            {productState.products === null ? '' : productState.products.length ? (
+            {productState.products === null ? (
+                ''
+            ) : productState.products.length ? (
                 <>
                     <StyledLabel htmlFor="sortList">Sort:</StyledLabel>
                     <StyledSelect
@@ -66,7 +67,13 @@ export default function SortDropdown(props) {
                         <option value="quantity">Quantity</option>
                     </StyledSelect>
                 </>
-            ) : <><h1>There are no products available.  Add a product above.</h1></>}
+            ) : (
+                <>
+                    <h1>
+                        There are no products available. Add a product above.
+                    </h1>
+                </>
+            )}
         </StyledDiv>
     );
 }

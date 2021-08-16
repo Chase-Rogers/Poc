@@ -6,15 +6,16 @@ import styled from 'styled-components';
 
 const StyledButton = styled.button`
     margin: 10px;
-    min-width: 200px;
-    border: none;
+    min-width: 180px;
+    border: ${(props) => (props.type === 'reset' ? 'white' : 'black')} solid 1px;
     font-size: 18px;
     padding: 7px 10px;
     background-color: ${(props) =>
         props.type === 'reset' ? 'white' : 'black'};
     color: ${(props) => (props.type === 'reset' ? 'black' : 'white')};
     &:hover {
-        border: ${(props) => (props.type === 'reset' ? 'black' : 'white')} solid 1px;
+        border: ${(props) => (props.type === 'reset' ? 'black' : 'white')} solid
+            1px;
     }
 `;
 

@@ -30,7 +30,7 @@ export default function ContentProvider(props) {
         setShow(false);
     };
 
-    function getProducts(productParam) {
+    function getProducts() {
         productAxios
             .get(`/api`)
             .then((res) => {
@@ -113,7 +113,7 @@ export default function ContentProvider(props) {
                 setIsSuccessful,
                 handleClose,
                 show,
-                setShow
+                setShow,
             }}
         >
             {props.children}
