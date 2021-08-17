@@ -11,7 +11,7 @@
 
 .ProductCard {
     width: 20vw;
-    height: 50vh;
+    min-height: 450px;
     /* background-color: green; */
     padding: 15px;
     border: 1px solid black;

@@ -95,7 +95,8 @@ export default function ProductForm({
     };
 
     const handleFileUpload = async (e) => {
-        const fileB64 = await convertFileToBase64(e.target.files[0]);
+        let fileB64 = '';
+        if (e.target.files.length > 0) fileB64 = await convertFileToBase64(e.target.files[0]);
         setInputs((prevInputs) => ({
             ...prevInputs,
             image: fileB64,
@@ -136,6 +137,7 @@ export default function ProductForm({
                         Description:{' '}
                     </StyledLabel>
                     <StyledInput
+                        maxLength="110"
                         type="text"
                         name="description"
                         id="description"

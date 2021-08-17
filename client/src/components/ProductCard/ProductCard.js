@@ -10,16 +10,16 @@ export default function ProductCard({ product }) {
             {image ? (
                 <img src={image} style={{ width: 150, height: 150 }}></img>
             ) : (
-                <img src="https://via.placeholder.com/150"></img>
+                <img src="https://dummyimage.com/150x150/cccccc/000000.png&text=No+Image+Available"></img>
             )}
             <h3>{title}</h3>
-            <p>
+            <div style={{overflowY: 'scroll', height: 55, wordBreak: 'break-all'}}>
                 {description || (
                     <span>
                         <i>{noDescText}</i>
                     </span>
                 )}
-            </p>
+            </div>
             <p>
                 Price: ${price}
                 {!(price % 1) ? '.00' : ''}
