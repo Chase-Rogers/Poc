@@ -96,6 +96,34 @@ export default function ContentProvider(props) {
             });
     };
 
+    const deleteProduct = (productId) => {
+        productAxios
+            .delete(`/api/${productId}`)
+            .then((res) => {
+                toast.success(
+                    `Product ${productId} has been successfully deleted.`
+                );
+                // setIsSuccessful(true);
+                console.log(productState)
+                return setProductState((prevProductState) => ({
+                    ...prevProductState, 
+                    products: [
+                        ...prevProductState.products.filter(
+                            (product) => product._id !== productId
+                        ),
+                    ],
+                }));   
+            })
+
+            .catch((err) => {
+                toast.error(
+                    `Error: ${err.response.status} - ${err.response.statusText}`
+                );
+                setIsSuccessful(false);
+                console.log('Error:', err);
+            });
+    };
+
     return (
         <ContentContext.Provider
             value={{
@@ -114,6 +142,7 @@ export default function ContentProvider(props) {
                 handleClose,
                 show,
                 setShow,
+                deleteProduct,
             }}
         >
             {props.children}

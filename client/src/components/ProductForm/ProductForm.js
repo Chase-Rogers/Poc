@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { ContentContext } from '../../context/ContentProvider';
 import styled from 'styled-components';
 
@@ -96,7 +96,8 @@ export default function ProductForm({
 
     const handleFileUpload = async (e) => {
         let fileB64 = '';
-        if (e.target.files.length > 0) fileB64 = await convertFileToBase64(e.target.files[0]);
+        if (e.target.files.length > 0)
+            fileB64 = await convertFileToBase64(e.target.files[0]);
         setInputs((prevInputs) => ({
             ...prevInputs,
             image: fileB64,
