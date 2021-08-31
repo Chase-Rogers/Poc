@@ -103,8 +103,6 @@ export default function ContentProvider(props) {
                 toast.success(
                     `Product ${productId} has been successfully deleted.`
                 );
-                // setIsSuccessful(true);
-                console.log(productState)
                 return setProductState((prevProductState) => ({
                     ...prevProductState, 
                     products: [
